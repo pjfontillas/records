@@ -7,7 +7,7 @@
     "start": "node app.js",
     "test": "python -m unittest | mocha \"*.test.js\""
   },
-  "author": "",
+  "author": "Patrick James Fontillas <pjfontillas@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "child_process": "^1.0.2",

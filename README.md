@@ -1,5 +1,5 @@
 # Records
-This is a mixture of an JS/Node/Express API server and Python3 functionality to provide access to reading, sorting, and updating data files. Everyone knows how to
+This is a mixture of JS/Node/Express API server and Python3 functionality to provide access to reading, sorting, and updating data files. Everyone knows how to
 access data for CRUD operations via JS, so I wanted to show what it's like to
 create a bridge between JS and Python so we can use the best of both worlds.
 

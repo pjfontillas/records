@@ -3,7 +3,7 @@ let chaiHttp = require('chai-http');
 let should = chai.should();
 let expect = chai.expect;
 
-const server = 'http://localhost:3000';
+const server = 'http://localhost:5000';
 
 chai.use(chaiHttp);
 describe('Records', () => {
@@ -17,7 +17,7 @@ describe('Records', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
-          res.body.length.should.be.eql(10);
+          res.body.length.should.be.oneOf([10, 11]);
           // first record should have last name of 'Wagstaff'
           expect(res.body[0].lastName).to.equal('Wagstaff');
           done();
@@ -35,7 +35,7 @@ describe('Records', () => {
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('array');
-            res.body.length.should.be.eql(10);
+            res.body.length.should.be.oneOf([10, 11]);
             // first record should have last name of 'Nelson'
             expect(res.body[0].lastName).to.equal('Nelson');
             done();
@@ -53,7 +53,7 @@ describe('Records', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
-          res.body.length.should.be.eql(10);
+          res.body.length.should.be.oneOf([10, 11]);
           // first record should have last name of 'Blackwell'
           expect(res.body[0].lastName).to.equal('Blackwell');
           done();
@@ -62,30 +62,85 @@ describe('Records', () => {
   });
 
   /**
-   * Testing sending a record.
+   * Testing sending a record to comma file.
    */
-  describe('/POST a single record', () => {
-    it('it should POST a single record which is then returned on success', (done) => {
+  describe('/POST a single record to comma file', () => {
+    it('it should POST a single comma record with color set to Green', (done) => {
       chai.request(server)
         .post('/records')
         .type('json')
         .send({
           file: 'data/comma.txt',
-          delimiter: ', ',
+          delimiter: ',',
           record: {
             lastName: 'Fontillas',
             firstName: 'Patrick',
             gender: 'M',
-            favoriteColor: 'blue',
-            birthDate: '05/06/1989',
+            favoriteColor: 'Blue',
+            dateOfBirth: '05/06/1989',
           },
         })
         .end((err, res) => {
             res.should.have.status(200);
-            console.log(res.body);
-            //expect(res.body.lastName).to.equal('Fontillas');
+            expect(res.body.favoriteColor).to.equal('Blue');
             done();
         });
     });
   });
+
+  /**
+   * Testing sending a record to pipe file.
+   */
+  describe('/POST a single record to pipe file', () => {
+    it('it should POST a single pipe record with color set to Green', (done) => {
+      chai.request(server)
+        .post('/records')
+        .type('json')
+        .send({
+          file: 'data/pipe.txt',
+          delimiter: '|',
+          record: {
+            lastName: 'Fontillas',
+            firstName: 'Patrick',
+            gender: 'M',
+            favoriteColor: 'Green',
+            dateOfBirth: '05/06/1989',
+          },
+        })
+        .end((err, res) => {
+            res.should.have.status(200);
+            expect(res.body.favoriteColor).to.equal('Green');
+            done();
+        });
+    });
+  });
+
+  /**
+   * Testing sending a record to space file.
+   */
+  describe('/POST a single record to space file', () => {
+    it('it should POST a single space record with color set to Orange', (done) => {
+      chai.request(server)
+        .post('/records')
+        .type('json')
+        .send({
+          file: 'data/space.txt',
+          delimiter: ' ',
+          record: {
+            lastName: 'Fontillas',
+            firstName: 'Patrick',
+            gender: 'M',
+            favoriteColor: 'Orange',
+            dateOfBirth: '05/06/1989',
+          },
+        })
+        .end((err, res) => {
+            res.should.have.status(200);
+            expect(res.body.favoriteColor).to.equal('Orange');
+            done();
+        });
+    });
+  });
+
+
 });
